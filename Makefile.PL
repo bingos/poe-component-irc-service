@@ -1,4 +1,4 @@
-#use ExtUtils::MakeMaker;
+use strict;
 use inc::Module::Install;
 print <<NOTICE;
 
@@ -15,19 +15,14 @@ have a nice day >:)
 
 NOTICE
 
+name 'POE-Component-IRC-Service';
 license 'perl';
 author 'Chris Williams <chris@bingosnet.co.uk>';
+auto_license holder => 'Chris Williams';
 abstract 'A fully event driven IRC Services module';
+version_from 'lib/POE/Component/IRC/Service.pm';
 build_requires 'Test::More' => 0.47;
-
-WriteMakefile(
-			  'NAME'	=> 'POE::Component::IRC::Service',
-			  'PREREQ_PM' => {
-					  'POE'    => 0.06_07,
-					  'Carp'   => 0,
-					  'Socket' => 0,
-					 },
-			  'VERSION_FROM' => 'lib/POE/Component/IRC/Service.pm',
-			  'dist' => { 'COMPRESS' => 'gzip --best' },
-			 );
-
+requires 'POE'    => 0.06_07;
+auto_provides;
+githubmeta;
+WriteAll();
