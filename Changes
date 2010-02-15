@@ -1,6 +1,9 @@
 POE::Component::IRC::Service
 ============================
 
+0.996 Mon Feb 15 21:21:03 GMT 2010
+  - corrected some warnings, spotted by Stephan Jauernick
+
 0.994	Tue Jun 24 09:27:23 BST 2008
 	- Added LICENSE information
 
