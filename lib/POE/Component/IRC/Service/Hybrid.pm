@@ -18,7 +18,7 @@ use Socket;
 use Sys::Hostname;
 use vars qw($VERSION);
 
-$VERSION = '0.9';
+$VERSION = '0.996';
 
 use constant PCI_REFCOUNT_TAG => "P::C::I registered";
 
@@ -1028,8 +1028,9 @@ sub _channel_mode {
   my (@modes) = retOpflags($modes);
   my ($currentmode) = $self->{channels}->{$channel}->{Mode};
   foreach (@modes) {
-    my ($argument) = shift(@args) if (/\+[bkloveIh]/);
-    my ($argument) = shift(@args) if (/-[boveIh]/);
+    my $argument;
+    $argument = shift(@args) if (/\+[bkloveIh]/);
+    $argument = shift(@args) if (/-[boveIh]/);
     SWITCH: {
       if (/[eI]/) {
 	last SWITCH;
@@ -1335,8 +1336,9 @@ Well, OK, there's only actually one, so it's more like "METHOD".
 
 =item new
 
-Takes one argument: a name (kernel alias) which this new connection
-will be known by. B<WARNING:> This method, for all that it's named
+Takes two arguments: a name (kernel alias) which this new connection
+will be known by, the second argument is a hashref of options see C<connect> for more
+details. B<WARNING:> This method, for all that it's named
 "new" and called in an OO fashion, doesn't actually return an
 object. It returns a true or false value which indicates if the new
 session was created or not. If it returns false, check $! for the

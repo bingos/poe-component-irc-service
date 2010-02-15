@@ -19,7 +19,7 @@ use Sys::Hostname;
 use Time::HiRes qw (gettimeofday);
 use vars qw($VERSION);
 
-$VERSION = '0.9';
+$VERSION = '0.996';
 
 my %cmd2token = ('ACCOUNT' => 'AC', 'ADMIN' => 'AD', 'ASLL' => 'LL', 'AWAY' => 'A', 'BURST' => 'B', 'CLEARMODE' => 'CM', 'CLOSE' => 'CLOSE', 'CNOTICE' => 'CN', 'CONNECT' => 'CO', 'CPRIVMSG' => 'CP', 'CREATE' => 'C', 'DESTRUCT' => 'DE', 'DESYNCH' => 'DS', 'DIE' => 'DIE', 'DNS' => 'DNS', 'END_OF_BURST' => 'EB', 'EOB_ACK'  => 'EA', 'ERROR' => 'Y', 'GET' => 'GET', 'GLINE' => 'GL', 'HASH' => 'HASH', 'HELP' => 'HELP', 'INFO' => 'F', 'INVITE' => 'I', 'ISON' => 'ISON', 'JOIN' => 'J', 'JUPE' => 'JU', 'KICK' => 'K', 'KILL' => 'D', 'LINKS' => 'LI', 'LIST' => 'LIST', 'LUSERS' => 'LU', 'MAP' => 'MAP', 'MODE' => 'M', 'MOTD' => 'MO', 'NAMES' => 'E', 'NICK' => 'N', 'NOTICE' => 'O', 'OPER' => 'OPER', 'OPMODE' => 'OM', 'PART' => 'L', 'PASS' => 'PA', 'PING' => 'G', 'PONG' => 'Z', 'POST' => 'POST', 'PRIVMSG' => 'P', 'PRIVS' => 'PRIVS', 'PROTO' => 'PROTO', 'QUIT' => 'Q', 'REHASH' => 'REHASH', 'RESET' => 'RESET', 'RESTART' => 'RESTART', 'RPING' => 'RI', 'RPONG' => 'RO', 'SERVER' => 'S', 'SET' => 'SET', 'SETTIME' => 'SE', 'SILENCE' => 'U', 'SQUIT' => 'SQ', 'STATS' => 'R', 'TIME' => 'TI', 'TOPIC' => 'T', 'TRACE' => 'TR', 'UPING' => 'UP', 'USER' => 'USER', 'USERHOST' => 'USERHOST', 'USERIP' => 'USERIP', 'VERSION' => 'V', 'WALLCHOPS' => 'WC', 'WALLOPS' => 'WA', 'WALLUSERS' => 'WU', 'WALLVOICES' => 'WV', 'WHO' => 'H', 'WHOIS' => 'W', 'WHOWAS' => 'X');
 
@@ -770,24 +770,6 @@ sub kick {
   $kernel->yield('sl_client', "$numeric K $chan $nick" );
 }
 
-# Join a channel. Do a CREATE or JOIN appropriately
-sub join {
-  my ($kernel,$heap,$numeric,$channel,$modes) = @_[KERNEL,HEAP,ARG0,ARG1,ARG2];
-
-  unless (defined $numeric and defined $channel) {
-    die "The POE::Component::IRC event \"join\" requires at least two arguments";
-  }
-  
-  my ($timestamp) = time();
-  if ( $heap->{State}->channel_exists($channel) ) {
-    # Join channel
-    $kernel->yield( 'sl_client' => "$numeric J $channel $timestamp" );
-  } else {
-    # Create channel
-    $kernel->yield( 'sl_client' => "$numeric C $channel $timestamp" );
-  }
-}
-
 # The handler for all IRC commands that take no arguments.
 sub noargs {
   my ($kernel, $state, $arg) = @_[KERNEL, STATE, ARG0];
@@ -1383,8 +1365,9 @@ sub _channel_mode {
   my (@modes) = retOpflags($modes);
   my ($currentmode) = $self->{channels}->{$channel}->{Mode};
   foreach (@modes) {
-    my ($argument) = shift(@args) if (/\+[ovbkl]/);
-    my ($argument) = shift(@args) if (/-[ovb]/);
+    my $argument;
+    $argument = shift(@args) if (/\+[ovbkl]/);
+    $argument = shift(@args) if (/-[ovb]/);
     SWITCH: {
       if (/b/) {
 	$self->_channel_ban($channel,$_,$argument,$who);
@@ -1904,6 +1887,24 @@ sub base64_to_decimal {
     return base64todec($base64);
   } else {
     return undef;
+  }
+}
+
+# Join a channel. Do a CREATE or JOIN appropriately
+sub join {
+  my ($kernel,$heap,$numeric,$channel,$modes) = @_[KERNEL,HEAP,ARG0,ARG1,ARG2];
+
+  unless (defined $numeric and defined $channel) {
+    die "The POE::Component::IRC event \"join\" requires at least two arguments";
+  }
+  
+  my ($timestamp) = time();
+  if ( $heap->{State}->channel_exists($channel) ) {
+    # Join channel
+    $kernel->yield( 'sl_client' => "$numeric J $channel $timestamp" );
+  } else {
+    # Create channel
+    $kernel->yield( 'sl_client' => "$numeric C $channel $timestamp" );
   }
 }
 

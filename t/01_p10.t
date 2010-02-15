@@ -97,6 +97,6 @@ sub on_create {
 
   if ( $who eq $heap->{BotNumeric} ) {
     $tests[1] = "ok 3";
-    $kernel->yield ( squit );
+    $kernel->yield ( 'squit' );
   }
 }
