@@ -18,7 +18,7 @@ use Socket;
 use Sys::Hostname;
 use vars qw($VERSION);
 
-$VERSION = '0.996';
+$VERSION = '0.998';
 
 use constant PCI_REFCOUNT_TAG => "P::C::I registered";
 

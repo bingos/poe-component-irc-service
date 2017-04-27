@@ -13,7 +13,7 @@ use strict;
 use Carp;
 use vars qw($VERSION);
 
-$VERSION = '0.996';
+$VERSION = '0.998';
 
 # Create a new, empty POE::Filter::IRC object.
 sub new {

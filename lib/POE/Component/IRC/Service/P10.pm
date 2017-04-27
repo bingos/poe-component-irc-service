@@ -19,7 +19,7 @@ use Sys::Hostname;
 use Time::HiRes qw (gettimeofday);
 use vars qw($VERSION);
 
-$VERSION = '0.996';
+$VERSION = '0.998';
 
 my %cmd2token = ('ACCOUNT' => 'AC', 'ADMIN' => 'AD', 'ASLL' => 'LL', 'AWAY' => 'A', 'BURST' => 'B', 'CLEARMODE' => 'CM', 'CLOSE' => 'CLOSE', 'CNOTICE' => 'CN', 'CONNECT' => 'CO', 'CPRIVMSG' => 'CP', 'CREATE' => 'C', 'DESTRUCT' => 'DE', 'DESYNCH' => 'DS', 'DIE' => 'DIE', 'DNS' => 'DNS', 'END_OF_BURST' => 'EB', 'EOB_ACK'  => 'EA', 'ERROR' => 'Y', 'GET' => 'GET', 'GLINE' => 'GL', 'HASH' => 'HASH', 'HELP' => 'HELP', 'INFO' => 'F', 'INVITE' => 'I', 'ISON' => 'ISON', 'JOIN' => 'J', 'JUPE' => 'JU', 'KICK' => 'K', 'KILL' => 'D', 'LINKS' => 'LI', 'LIST' => 'LIST', 'LUSERS' => 'LU', 'MAP' => 'MAP', 'MODE' => 'M', 'MOTD' => 'MO', 'NAMES' => 'E', 'NICK' => 'N', 'NOTICE' => 'O', 'OPER' => 'OPER', 'OPMODE' => 'OM', 'PART' => 'L', 'PASS' => 'PA', 'PING' => 'G', 'PONG' => 'Z', 'POST' => 'POST', 'PRIVMSG' => 'P', 'PRIVS' => 'PRIVS', 'PROTO' => 'PROTO', 'QUIT' => 'Q', 'REHASH' => 'REHASH', 'RESET' => 'RESET', 'RESTART' => 'RESTART', 'RPING' => 'RI', 'RPONG' => 'RO', 'SERVER' => 'S', 'SET' => 'SET', 'SETTIME' => 'SE', 'SILENCE' => 'U', 'SQUIT' => 'SQ', 'STATS' => 'R', 'TIME' => 'TI', 'TOPIC' => 'T', 'TRACE' => 'TR', 'UPING' => 'UP', 'USER' => 'USER', 'USERHOST' => 'USERHOST', 'USERIP' => 'USERIP', 'VERSION' => 'V', 'WALLCHOPS' => 'WC', 'WALLOPS' => 'WA', 'WALLUSERS' => 'WU', 'WALLVOICES' => 'WV', 'WHO' => 'H', 'WHOIS' => 'W', 'WHOWAS' => 'X');
 
